@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flame/components.dart';
 
 class QuarterRest extends SpriteComponent with HasGameRef {
