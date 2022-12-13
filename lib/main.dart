@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:beat_challenge/cards.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -109,19 +111,11 @@ class BeatChallengeApp extends StatelessWidget {
 }
 
 class BeatChallenge extends FlameGame {
-  var quarterRest = QuarterRest();
+  List<SpriteComponent> cardsLoaded = [];
+  List<int> currentBeat = [];
 
   @override
-  void update(double dt) {
-    super.update(dt);
-    _gameService.addListener(() {});
-  }
-
-  @override
-  Future<void> onLoad() async {
-    add(quarterRest);
-    add(DoubleEighthNote());
-  }
+  Future<void> onLoad() async {}
 
   @override
   Color backgroundColor() => const Color(0xFFFFFFFF);
