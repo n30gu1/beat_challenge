@@ -99,6 +99,8 @@ class BeatChallengeApp extends StatelessWidget {
                                 child: const Text('비트 멈추기')),
                           ],
                         ),
+                        Text("${_gameService.missCount} Miss",
+                            style: const TextStyle(fontSize: 20)),
                         Text(_gameService.beats.toString()),
                         Text(_gameService.currentBeatIndex.toString()),
                       ],
@@ -161,10 +163,24 @@ class BeatChallenge extends StatelessWidget {
         builder: (context, child) {
           _cardLoader.loadCard(_gameService.beats);
 
-          return Row(
-            children: _cardLoader.cardsLoaded.map((element) {
-              return Flexible(child: element);
-            }).toList(),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: _cardLoader.cardsLoaded.map((element) {
+                  return Flexible(child: element);
+                }).toList(),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    top: 8.0,
+                    left: 32 +
+                        (MediaQuery.of(context).size.width / 4) *
+                            (_gameService.currentBeatIndex ?? 0)),
+                child: Text("^", style: TextStyle(fontSize: 50)),
+              )
+            ],
           );
         });
   }

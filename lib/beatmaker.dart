@@ -50,6 +50,13 @@ class GameService extends ChangeNotifier {
     notifyListeners();
   }
 
+  int _missCount = 0;
+  int get missCount => _missCount;
+  void increaseMissCount() {
+    _missCount++;
+    notifyListeners();
+  }
+
   DateTime _lastBeat = DateTime.now();
   DateTime get lastBeat => _lastBeat;
 
@@ -78,13 +85,13 @@ class GameService extends ChangeNotifier {
     void checkMiss() {
       if (lastTap != null) {
         if (lastBeat.difference(lastTap!).inMilliseconds >= 60000 / bpm) {
-          scoreDecrease();
+          increaseMissCount();
         }
       } else {
-        scoreDecrease();
+        increaseMissCount();
       }
 
-      if (score < -10) {
+      if (score < -10 || missCount > 5) {
         stopBeat();
         _gameState = GameState.over;
         notifyListeners();
@@ -148,6 +155,7 @@ class GameService extends ChangeNotifier {
     _beats.clear();
     _currentBeatIndex = null;
     _score = 0;
+    _missCount = 0;
     setBpm(60);
   }
 
