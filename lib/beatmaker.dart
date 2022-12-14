@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flame/flame.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,17 @@ class BeatPlayer {
 }
 
 class GameService extends ChangeNotifier {
+  bool tapping = false;
+  void tapDown() {
+    tapping = true;
+    notifyListeners();
+  }
+
+  void tapUp() {
+    tapping = false;
+    notifyListeners();
+  }
+
   int _score = 0;
   int get score => _score;
 
@@ -77,6 +89,8 @@ class GameService extends ChangeNotifier {
   }
 
   Future<void> playBeat() async {
+    _score = 0;
+    notifyListeners();
     void play() {
       _lastBeat = DateTime.now();
       BeatPlayer.instance.play();
@@ -154,7 +168,6 @@ class GameService extends ChangeNotifier {
     }
     _beats.clear();
     _currentBeatIndex = null;
-    _score = 0;
     _missCount = 0;
     setBpm(60);
   }

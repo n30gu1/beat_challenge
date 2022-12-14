@@ -30,6 +30,7 @@ class BeatChallengeApp extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTapDown: (details) {
+                        _gameService.tapDown();
                         if (_gameService.gameState == GameState.playing) {
                           var dt = DateTime.now()
                               .difference(_gameService.lastBeat)
@@ -50,6 +51,9 @@ class BeatChallengeApp extends StatelessWidget {
                         } else {
                           _gameService.playBeat();
                         }
+                      },
+                      onTapUp: (details) {
+                        _gameService.tapUp();
                       },
                       child: _gameService.gameState != GameState.playing
                           ? Container(
@@ -102,8 +106,6 @@ class BeatChallengeApp extends StatelessWidget {
                         ),
                         Text("${_gameService.missCount} Miss",
                             style: const TextStyle(fontSize: 20)),
-                        Text(_gameService.beats.toString()),
-                        Text(_gameService.currentBeatIndex.toString()),
                       ],
                     ))
                   ],
@@ -179,8 +181,11 @@ class BeatChallenge extends StatelessWidget {
                     left: 32 +
                         (MediaQuery.of(context).size.width / 4) *
                             (_gameService.currentBeatIndex ?? 0)),
-                child: Text("^", style: TextStyle(fontSize: 50)),
-              )
+                child: const Text("^", style: TextStyle(fontSize: 50)),
+              ),
+              _gameService.tapping
+                  ? Image.asset("assets/images/tapped.png")
+                  : Image.asset("assets/images/untapped.png"),
             ],
           );
         });
