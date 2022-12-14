@@ -78,11 +78,9 @@ class GameService extends ChangeNotifier {
     void checkMiss() {
       if (lastTap != null) {
         if (lastBeat.difference(lastTap!).inMilliseconds >= 60000 / bpm) {
-          print("miss");
           scoreDecrease();
         }
       } else {
-        print("miss");
         scoreDecrease();
       }
 

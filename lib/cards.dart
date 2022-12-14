@@ -1,46 +1,46 @@
-import 'package:flame/components.dart';
+import 'package:flutter/material.dart';
 
-class QuarterRest extends SpriteComponent with HasGameRef {
-  QuarterRest() : super(size: Vector2(210, 280));
+class QuarterRest extends StatelessWidget {
+  const QuarterRest({super.key});
 
   @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('quarter_rest.png');
+  Widget build(BuildContext context) {
+    return Image.asset('assets/images/quarter_rest.png');
   }
 }
 
-class DoubleEighthNote extends SpriteComponent with HasGameRef {
-  DoubleEighthNote() : super(size: Vector2(210, 280));
+class DoubleEighthNote extends StatelessWidget {
+  const DoubleEighthNote({super.key});
 
   @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('double_eighth.png');
+  Widget build(BuildContext context) {
+    return Image.asset('assets/images/double_eighth.png');
   }
 }
 
-class EighthAndEighthRest extends SpriteComponent with HasGameRef {
-  EighthAndEighthRest() : super(size: Vector2(210, 280));
+class EighthAndEighthRest extends StatelessWidget {
+  const EighthAndEighthRest({super.key});
 
   @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('eighth_eighth_rest.png');
+  Widget build(BuildContext context) {
+    return Image.asset('assets/images/eighth_eighth_rest.png');
   }
 }
 
-class QuadSixteenthNote extends SpriteComponent with HasGameRef {
-  QuadSixteenthNote() : super(size: Vector2(210, 280));
+class QuadSixteenthNote extends StatelessWidget {
+  const QuadSixteenthNote({super.key});
 
   @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('quad_sixteenth.png');
+  Widget build(BuildContext context) {
+    return Image.asset('assets/images/quad_sixteenth.png');
   }
 }
 
-class QuarterNote extends SpriteComponent with HasGameRef {
-  QuarterNote() : super(size: Vector2(210, 280));
+class QuarterNote extends StatelessWidget {
+  const QuarterNote({super.key});
 
   @override
-  Future<void> onLoad() async {
-    sprite = await gameRef.loadSprite('quarter.png');
+  Widget build(BuildContext context) {
+    return Image.asset('assets/images/quarter.png');
   }
 }

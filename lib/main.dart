@@ -1,8 +1,4 @@
-import 'dart:html';
-
 import 'package:beat_challenge/cards.dart';
-import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 
 import 'beatmaker.dart';
@@ -29,9 +25,11 @@ class BeatChallengeApp extends StatelessWidget {
               builder: (context, child) {
                 return Stack(
                   children: [
-                    const GameWidget.controlled(gameFactory: BeatChallenge.new),
+                    Center(
+                      child: BeatChallenge(),
+                    ),
                     GestureDetector(
-                      onTap: () {
+                      onTapDown: (details) {
                         if (_gameService.gameState == GameState.playing) {
                           var dt = DateTime.now()
                               .difference(_gameService.lastBeat)
@@ -46,6 +44,8 @@ class BeatChallengeApp extends StatelessWidget {
                           } else {
                             print("nice");
                           }
+
+                          _gameService.updateLastTap();
                         } else {
                           _gameService.playBeat();
                         }
@@ -110,13 +110,62 @@ class BeatChallengeApp extends StatelessWidget {
   }
 }
 
-class BeatChallenge extends FlameGame {
-  List<SpriteComponent> cardsLoaded = [];
-  List<int> currentBeat = [];
+class CardLoader extends ChangeNotifier {
+  List<Widget> _cardsLoaded = [];
+  List<Widget> get cardsLoaded => _cardsLoaded;
+  void loadCard(List<int> beatList) {
+    List<Widget> cards = beatList.map((e) {
+      switch (e) {
+        case 0:
+          return const QuarterRest();
+        case 1:
+          return const QuarterNote();
+        case 2:
+          return const DoubleEighthNote();
+        case 3:
+          return const QuadSixteenthNote();
+        case 4:
+          return const EighthAndEighthRest();
+        default:
+          return const QuarterRest();
+      }
+    }).toList();
+
+    if (cardsLoaded.isEmpty) {
+      _cardsLoaded = cards;
+    }
+
+    for (int i = 0; i < cards.length; i++) {
+      if (cards[i] != cardsLoaded[i]) {
+        _cardsLoaded[i] = AnimatedPositioned(
+            duration: const Duration(milliseconds: 100),
+            top: -10,
+            curve: Curves.easeInOut,
+            child: cards[i]);
+      }
+    }
+
+    notifyListeners();
+  }
+}
+
+class BeatChallenge extends StatelessWidget {
+  final _cardLoader = CardLoader();
+
+  BeatChallenge({super.key});
 
   @override
-  Future<void> onLoad() async {}
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+        animation: Listenable.merge([_gameService, _cardLoader]),
+        builder: (context, child) {
+          _cardLoader.loadCard(_gameService.beats);
 
-  @override
-  Color backgroundColor() => const Color(0xFFFFFFFF);
+          return Row(
+            children: _cardLoader.cardsLoaded.map((element) {
+              return Flexible(child: element);
+            }).toList(),
+          );
+        });
+  }
 }
