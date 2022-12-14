@@ -40,6 +40,7 @@ class BeatChallengeApp extends StatelessWidget {
                             print("great");
                           } else if (dt > 300) {
                             _gameService.scoreDecrease();
+                            _gameService.increaseMissCount();
                             print("miss");
                           } else {
                             print("nice");
